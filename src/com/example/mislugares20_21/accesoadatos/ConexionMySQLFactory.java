@@ -54,7 +54,7 @@ public class ConexionMySQLFactory {
 
 
         }  } catch (SQLException ex) {
-            System.out.printf("HA OCURRIDO UNA EXCEPCIóN:%n");
+            System.out.printf("HA OCURRIDO UNA EXCEPCIÃ“N:%n");
             System.out.printf("Mensaje   : %s %n", ex.getMessage());
             System.out.printf("SQL estado: %s %n", ex.getSQLState());
             System.out.printf("CÃ“d error : %s %n", ex.getErrorCode());
@@ -64,7 +64,7 @@ public class ConexionMySQLFactory {
         catch (ClassNotFoundException ex) {
         //Logger.getLogger(SQLDAOFactory.class.getName()).log(Level.SEVERE, null, ex);
 
-        System.out.printf("HA OCURRIDO UNA EXCEPCIóN:%n");
+        System.out.printf("HA OCURRIDO UNA EXCEPCIï¿½N:%n");
     }
 
         return conexion;

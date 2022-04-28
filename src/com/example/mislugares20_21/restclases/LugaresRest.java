@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PATCH;
 import javax.ws.rs.DELETE;
@@ -13,6 +14,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -20,6 +22,7 @@ import javax.ws.rs.core.Response.Status;
 import com.example.mislugares20_21.accesoadatos.ConexionMySQLFactory;
 import com.example.mislugares20_21.accesoadatos.LugaresDAO;
 import com.example.mislugares20_21.modelo.Lugar;
+import com.example.mislugares20_21.modelo.Lugares;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -33,7 +36,7 @@ public class LugaresRest {
 
 	@GET
 	@Path("/lugareslista")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	public Response getLugares() {
 
 		LugaresDAO dao = ConexionMySQLFactory.getDAOLugares();
@@ -54,14 +57,15 @@ public class LugaresRest {
 
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
+		
 
-		return Response.ok(lista).build();
+		return Response.ok( new Lugares(lista) ).build();
 
 	}
 	
 	@GET
 	@Path("/lugar/{lugarid}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	public Response getLugarPorId(@PathParam("lugarid") String lugarid) {
 
 		LugaresDAO dao = ConexionMySQLFactory.getDAOLugares();
@@ -92,36 +96,40 @@ public class LugaresRest {
 
 	@POST
 	@Path("/creaLugar")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
+	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 
-	public Response creaLugar(Lugar lugar) {
+	public Response creaLugar(@HeaderParam("Accept") String accept, Lugar lugar) {
 		int id = -1;
+		
+		
 
 		LugaresDAO dao = ConexionMySQLFactory.getDAOLugares();
 
 		ObjectMapper objMapper = new ObjectMapper();
 		String entityLugar = "";
+		GenericEntity genericEntityLugar= null;
 		try {
 			id = dao.InsertarLugar(lugar);
 			lugar.setId(id);
 
-			entityLugar = objMapper.writeValueAsString(lugar);
-		} catch (JsonProcessingException | SQLException e) {
+			//entityLugar = objMapper.writeValueAsString(lugar);
+			 genericEntityLugar = new GenericEntity(lugar, Lugar.class);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 
-		return Response.status(Status.CREATED).entity(entityLugar).build();
+		return Response.status(Status.CREATED).entity(genericEntityLugar).build();
 
 	}
 
 	@PUT
 	@Path("/actualizalugar/{lugarid}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
+	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	public Response actualizarLugarPut(@PathParam("lugarid") String lugarid, Lugar lugar) {
 
 		LugaresDAO dao = ConexionMySQLFactory.getDAOLugares();
@@ -151,8 +159,8 @@ public class LugaresRest {
 	
 	@PATCH
 	@Path("/patchlugar/{lugarid}")
-	@Consumes("application/json; charset=UTF-8")
-	@Produces("application/json; charset=UTF-8")
+	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	public Response patchLugar(@PathParam("lugarid") String lugarid, Lugar lugar) {
 
 		LugaresDAO dao = ConexionMySQLFactory.getDAOLugares();
@@ -181,8 +189,8 @@ public class LugaresRest {
 
 	@DELETE
 	@Path("/deletelugar")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	public Response borrarLugarDelete(Lugar lugar) {
 
 		LugaresDAO dao = ConexionMySQLFactory.getDAOLugares();

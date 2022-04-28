@@ -5,8 +5,9 @@ tmp/
 *.bak
 *.swp
 *~.nib
+*.class
+*.lst
 local.properties
 .settings/
 .loadpath
 .recommenders
-.class

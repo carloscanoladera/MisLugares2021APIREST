@@ -2,6 +2,9 @@ package com.example.mislugares20_21.modelo;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -11,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Carlos@Cano
  * @since 1.0
  */
+@XmlRootElement (name="lugar")
 public class Lugar implements Serializable {
 
 	/**
@@ -24,7 +28,7 @@ public class Lugar implements Serializable {
 
     private String direccion="";
 
-    @JsonProperty("posicion")
+ 
     private GeoPunto posicion;
     private TipoLugar tipo;
 
@@ -110,7 +114,7 @@ public class Lugar implements Serializable {
      *
      * @return String the object Lugar address
      */
-
+    @XmlElement(name="posicion")
     public GeoPunto getPosicion() {
         return posicion;
     }

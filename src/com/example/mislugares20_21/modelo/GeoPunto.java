@@ -3,12 +3,15 @@ package com.example.mislugares20_21.modelo;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * This Class implements a Geographic Point on Earth
  *
  * @version 1.1
  * @author Carlos@Cano
  */
+@XmlRootElement (name="posicion")
  public class GeoPunto implements Serializable{
 
 

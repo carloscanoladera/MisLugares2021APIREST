@@ -157,7 +157,7 @@ public class LugaresDAOMySQL implements LugaresDAO {
 		lugar.setDireccion(resul.getString("direccion"));
 		lugar.setPosicion(new GeoPunto(resul.getDouble("longitud"), resul.getDouble("latitud")));
 
-		lugar.setTipo(TipoLugar.values()[resul.getInt("tipo")]);
+		lugar.setTipo(TipoLugar.values()[resul.getInt("tipo")-1]);
 		lugar.setFoto(resul.getString("foto"));
 		lugar.setTelefono(resul.getLong("telefono"));
 		lugar.setUrl(resul.getString("url"));
